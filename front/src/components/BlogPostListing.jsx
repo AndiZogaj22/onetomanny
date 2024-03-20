@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { getBlogPosts, deleteBlogPost } from '../services/blogPostService';
 
 const BlogPostListing = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -8,8 +8,8 @@ const BlogPostListing = () => {
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
-        const data = await getBlogPosts();
-        setBlogPosts(data);
+        const response = await axios.get('http://localhost:5000/api/blogposts'); // Adjust the URL based on your backend endpoint
+        setBlogPosts(response.data);
       } catch (error) {
         console.error('Error fetching blog posts:', error);
       }
@@ -19,17 +19,13 @@ const BlogPostListing = () => {
 
   const handleDelete = async (blogPostId) => {
     try {
-      await deleteBlogPost(blogPostId);
-      // Assuming setBlogPosts is a state update function to update the list of blog posts
-      // You need to filter out the deleted blog post from the list
+      await axios.delete(`http://localhost:5000/api/blogposts/${blogPostId}`); // Adjust the URL based on your backend endpoint
       setBlogPosts(blogPosts.filter(blogPost => blogPost._id !== blogPostId));
     } catch (error) {
       console.error('Error deleting blog post:', error);
     }
   };
 
-  console.log(blogPosts)
-  
   return (
     <div className="p-2">
       <h2 className="text-lg font-semibold mb-2">Blog Posts</h2>
@@ -60,31 +56,29 @@ const BlogPostListing = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-  {blogPosts
-    .filter(blogPost => blogPost.author) // Filter out blog posts with no author
-    .map(blogPost => (
-      <tr key={blogPost._id} className="hover:bg-gray-50">
-        <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-          <div className="text-sm text-gray-800">{blogPost._id}</div>
-        </td>
-        <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-          <div className="text-sm text-gray-800">{blogPost.title}</div>
-        </td>
-        <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-          <div className="text-sm text-gray-800">{blogPost.content}</div>
-        </td>
-        <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-          <div className="text-sm text-gray-800">{blogPost.author._id}</div>
-        </td>
-        <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-        
-          <Link to={`/blogposts/edit/${blogPost._id}`} className="text-blue-600 hover:text-blue-800 mr-1">Edit</Link>
-          <button className="text-red-600 hover:text-red-800" onClick={() => handleDelete(blogPost._id)}>Delete</button>
-        </td>
-      </tr>
-    ))}
-</tbody>
-
+            {blogPosts
+              .filter(blogPost => blogPost.author) // Filter out blog posts with no author
+              .map(blogPost => (
+                <tr key={blogPost._id} className="hover:bg-gray-50">
+                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                    <div className="text-sm text-gray-800">{blogPost._id}</div>
+                  </td>
+                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                    <div className="text-sm text-gray-800">{blogPost.title}</div>
+                  </td>
+                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                    <div className="text-sm text-gray-800">{blogPost.content}</div>
+                  </td>
+                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                    <div className="text-sm text-gray-800">{blogPost.author._id}</div>
+                  </td>
+                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                    <Link to={`/blogposts/edit/${blogPost._id}`} className="text-blue-600 hover:text-blue-800 mr-1">Edit</Link>
+                    <button className="text-red-600 hover:text-red-800" onClick={() => handleDelete(blogPost._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
         </table>
       </div>
     </div>

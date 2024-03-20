@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getBlogPost, updateBlogPost } from '../services/blogPostService';
+import axios from 'axios';
 
 const BlogPostEdit = () => {
   const { id } = useParams(); // Extract the blog post ID from the URL params
-  const [blogPost, setBlogPost] = useState({ title: '', content: '', author: '' });
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
@@ -12,8 +11,8 @@ const BlogPostEdit = () => {
   useEffect(() => {
     const fetchBlogPost = async () => {
       try {
-        const data = await getBlogPost(id); // Fetch the blog post data
-        setBlogPost(data);
+        const response = await axios.get(`http://localhost:5000/api/blogposts/${id}`); // Adjust the URL based on your backend endpoint
+        const data = response.data;
         setTitle(data.title);
         setContent(data.content);
         setAuthor(data.author);
@@ -26,7 +25,7 @@ const BlogPostEdit = () => {
 
   const handleSave = async () => {
     try {
-      await updateBlogPost({ _id: id, title, content, author });
+      await axios.put(`http://localhost:5000/api/blogposts/${id}`, { title, content, author }); // Adjust the URL based on your backend endpoint
     } catch (error) {
       console.error('Error updating blog post:', error);
     }
