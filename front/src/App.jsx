@@ -5,6 +5,8 @@ import AuthorList from './components/AuthorList';
 import AuthorForm from './components/AuthorForm';
 import BlogPostList from './components/BlogPostList';
 import BlogPostForm from './components/BlogPostForm';
+import AuthorEdit from './components/AuthorEdit'
+import BlogPostEdit from './components/BlogPostEdit'
 
 const App = () => {
   return (
@@ -13,8 +15,13 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/authors" element={<AuthorList />} />
         <Route path="/authors/new" element={<AuthorForm />} />
+        <Route path="/authors/edit/:id" element={<AuthorEdit />} />
+
+
         <Route path="/blogposts" element={<BlogPostList />} />
         <Route path="/blogposts/new" element={<BlogPostForm />} />
+        <Route path="/blogposts/edit/:id" element={<BlogPostEdit />} />
+
       </Routes>
     </Router>
   );
@@ -23,21 +30,8 @@ const App = () => {
 const Home = () => {
   return (
     <div className="flex columns-2 gap-8 ">
-      <h1>Listing</h1>
-      <div>
-        <Link to="/authors" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Authors List</Link>
-      </div>
-      <div>
-        <Link to="/blogposts" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Blog Posts List</Link>
-      </div>
-<div>Creating</div>
-
-<div>
-        <Link to="/authors/new" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">New Authors </Link>
-      </div>
-      <div>
-        <Link to="/blogposts/new" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">New Blog Posts</Link>
-      </div>
+     <AuthorList />
+     <BlogPostList />
     </div>
   );
 };

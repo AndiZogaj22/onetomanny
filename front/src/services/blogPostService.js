@@ -22,3 +22,4 @@ export const createBlogPost = async (blogPostData) => {
   }
   return response.json();
 };
+

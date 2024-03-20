@@ -31,45 +31,44 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Update an author
-router.patch('/:id', getAuthor, async (req, res) => {
-  if (req.body.name != null) {
-    res.author.name = req.body.name;
-  }
-  if (req.body.email != null) {
-    res.author.email = req.body.email;
-  }
+// Update an author (PUT method)
+router.put('/:id', getAuthor, async (req, res) => {
   try {
-    const updatedAuthor = await res.author.save();
+    if (req.body.name != null) {
+      req.author.name = req.body.name;
+    }
+    if (req.body.email != null) {
+      req.author.email = req.body.email;
+    }
+    const updatedAuthor = await req.author.save();
     res.json(updatedAuthor);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
+// Middleware function to get author by ID
+async function getAuthor(req, res, next) {
+  try {
+    const author = await Author.findById(req.params.id);
+    if (!author) {
+      return res.status(404).json({ message: 'Author not found' });
+    }
+    req.author = author;
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
 // Delete an author
 router.delete('/:id', getAuthor, async (req, res) => {
   try {
-    await res.author.remove();
+    await Author.deleteOne({ _id: req.author._id });
     res.json({ message: 'Author deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Middleware function to get author by ID
-async function getAuthor(req, res, next) {
-  let author;
-  try {
-    author = await Author.findById(req.params.id);
-    if (author == null) {
-      return res.status(404).json({ message: 'Author not found' });
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-  res.author = author;
-  next();
-}
 
 module.exports = router;
