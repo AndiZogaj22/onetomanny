@@ -21,10 +21,12 @@ const AuthorListing = () => {
     try {
       await axios.delete(`http://localhost:5000/api/authors/${authorId}`);
       setAuthors(authors.filter(author => author._id !== authorId));
+      window.location.reload(); // Refresh the page
     } catch (error) {
       console.error('Error deleting author:', error);
     }
   };
+  
 
   return (
     <div className="p-4">
