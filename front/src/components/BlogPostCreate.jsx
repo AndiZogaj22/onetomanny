@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createBlogPost } from '../services/blogPostService';
 import { getAuthors } from '../services/authorService';
 
-const BlogPostForm = () => {
+const BlogPostCreate = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [authorId, setAuthorId] = useState('');
@@ -71,4 +71,4 @@ const BlogPostForm = () => {
   );
 };
 
-export default BlogPostForm;
+export default BlogPostCreate;

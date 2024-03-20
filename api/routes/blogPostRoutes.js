@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const BlogPost = require('../models/blogPost');
+const Author = require('../models/author');
 
 // Get all blog posts
 router.get('/', async (req, res) => {
@@ -78,6 +79,7 @@ router.delete('/:id', getBlogPost, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 
 module.exports = router;
