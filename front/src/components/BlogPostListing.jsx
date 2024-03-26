@@ -56,28 +56,26 @@ const BlogPostListing = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {blogPosts
-              .filter(blogPost => blogPost.author) // Filter out blog posts with no author
-              .map(blogPost => (
-                <tr key={blogPost._id} className="hover:bg-gray-50">
-                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-                    <div className="text-sm text-gray-800">{blogPost._id}</div>
-                  </td>
-                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-                    <div className="text-sm text-gray-800">{blogPost.title}</div>
-                  </td>
-                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-                    <div className="text-sm text-gray-800">{blogPost.content}</div>
-                  </td>
-                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-                    <div className="text-sm text-gray-800">{blogPost.author._id}</div>
-                  </td>
-                  <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
-                    <Link to={`/blogposts/edit/${blogPost._id}`} className="text-blue-600 hover:text-blue-800 mr-1">Edit</Link>
-                    <button className="text-red-600 hover:text-red-800" onClick={() => handleDelete(blogPost._id)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
+            {blogPosts.map(blogPost => (
+              <tr key={blogPost._id} className="hover:bg-gray-50">
+                <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                  <div className="text-sm text-gray-800">{blogPost._id}</div>
+                </td>
+                <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                  <div className="text-sm text-gray-800">{blogPost.title}</div>
+                </td>
+                <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                  <div className="text-sm text-gray-800">{blogPost.content}</div>
+                </td>
+                <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+  <div className="text-sm text-gray-800">{blogPost.author ? blogPost.author._id : "Author has been deleted"}</div>
+</td>
+                <td className="px-2 py-1 whitespace-nowrap border border-gray-200">
+                  <Link to={`/blogposts/edit/${blogPost._id}`} className="text-blue-600 hover:text-blue-800 mr-1">Edit</Link>
+                  <button className="text-red-600 hover:text-red-800" onClick={() => handleDelete(blogPost._id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
