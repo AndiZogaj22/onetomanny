@@ -32,7 +32,14 @@ const BlogPost = require('./models/blogPost');
 const Department = require('./models/department');
 const Employee = require('./models/employee');
 
+
+const Publisher = require('./models/publisher');
+const Magazine = require('./models/magazine');
+
 // Routes
+app.use('/api/publishers', require('./routes/publisherRoutes'));
+app.use('/api/magazines', require('./routes/magazineRoutes'));
+
 app.use('/api/authors', require('./routes/authorRoutes'));
 app.use('/api/blogposts', require('./routes/blogPostRoutes'));
 
