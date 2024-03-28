@@ -34,6 +34,17 @@ const MagazineListing = () => {
     settypeFilter(event.target.value);
   };
 
+
+  const handleDelete = async (magazineId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/magazines/${magazineId}`);
+      setMagazines(magazines.filter(magazine => magazine._id !== magazineId));
+      window.location.reload(); // Refresh the page
+    } catch (error) {
+      console.error('Error deleting magazine:', error);
+    }
+  };
+
   return (
     <div className="p-2">
       <h2 className="text-lg font-semibold mb-2">magazines</h2>
